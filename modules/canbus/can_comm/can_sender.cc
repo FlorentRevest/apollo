@@ -159,6 +159,31 @@ void CanSender::AddMessage(uint32_t message_id, ProtocolData* protocol_data,
   AINFO << "Add send message:" << std::hex << message_id;
 }
 
+ErrorCode CanSender::SendMessageOnce(uint32_t message_id, ProtocolData* protocol_data) {
+  if (protocol_data == nullptr) {
+    AERROR << "invalid protocol data.";
+    return ErrorCode::CANBUS_ERROR;
+  }
+
+  CanFrame can_frame;
+  can_frame.id = message_id;
+  can_frame.len = protocol_data->GetLength();
+  protocol_data->UpdateData(can_frame.data);
+
+  std::vector<CanFrame> can_frames;
+  can_frames.push_back(can_frame);
+  if (can_client_->SendSingleFrame(can_frames) != ErrorCode::OK) {
+    AERROR << "Send msg failed:" << can_frame.CanFrameString();
+    return ErrorCode::CANBUS_ERROR;
+  }
+
+  if (enable_log()) {
+    ADEBUG << "send_can_frame#" << can_frame.CanFrameString();
+  }
+
+  return ErrorCode::OK;
+}
+
 ErrorCode CanSender::Start() {
   if (is_running_) {
     AERROR << "Cansender has already started.";

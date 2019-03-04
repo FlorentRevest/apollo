@@ -154,6 +154,14 @@ class CanSender {
                   bool init_one = false);
 
   /**
+   * @brief Publish a CAN message once with its ID, protocol data.
+   * @param message_id The message ID.
+   * @param protocol_data A pointer of ProtocolData
+   *        which contains the content to send.
+   */
+  ::apollo::common::ErrorCode SendMessageOnce(uint32_t message_id, ProtocolData* protocol_data);
+
+  /**
    * @brief Start the CAN sender.
    * @return The error code indicating the status of this action.
    */
