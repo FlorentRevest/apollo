@@ -1,0 +1,9 @@
+bazel-apollo
+bazel-apollo-1.0
+bazel-bin
+bazel-genfiles
+bazel-out
+bazel-testlogs
+third_party/ros
+third_party/ros_aarch64/
+third_party/ros_x86_64/
