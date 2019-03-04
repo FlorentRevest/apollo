@@ -1,0 +1,57 @@
+data {
+    format: NOVATEL_BINARY
+    serial {
+        device: "/dev/ttyUSB0"
+        baud_rate: 115200
+    }
+}
+
+rtk_from {
+    format: RTCM_V3
+    ntrip {
+        address: "193.190.230.76"
+        port: 2101
+        mount_point: "TRDS00NOR0"
+        user: "<username>"
+        password: "<password>"
+        timeout_s: 5
+    }
+}
+
+rtk_to {
+    format: NOVATEL_BINARY
+    serial {
+        device: "/dev/ttyUSB1"
+        baud_rate: 115200
+    }
+}
+
+# First approximation of measurements between the IMU and the antenna
+# x=33.5cm, y=31.cm, z=110cm
+
+rtk_solution_type: RTK_RECEIVER_SOLUTION
+
+login_commands: "WIFICONFIG OFF\r\n"
+login_commands: "UNLOGALL THISPORT\r\n"
+
+login_commands: "INSCOMMAND ENABLE\r\n"
+login_commands: "SETINSTRANSLATION ANT1 0.335 0.31 1.10 0.05 0.05 0.1\r\n"
+login_commands: "SETINSTRANSLATION USER 0.00 0.00 0.00\r\n"
+login_commands: "LOG COM2 GPRMC ONTIME 1.0 0.25\r\n"
+login_commands: "EVENTOUTCONTROL MARK2 ENABLE POSITIVE 999999990 10\r\n"
+login_commands: "EVENTOUTCONTROL MARK1 ENABLE POSITIVE 500000000 500000000\r\n"
+
+login_commands: "LOG USB1 GPGGA ONTIME 1.0\r\n"
+login_commands: "LOG USB1 BESTGNSSPOSB ONTIME 1\r\n"
+login_commands: "LOG USB1 BESTGNSSVELB ONTIME 1\r\n"
+login_commands: "LOG USB1 BESTPOSB ONTIME 1\r\n"
+login_commands: "LOG USB1 INSPVASB ONTIME 0.01\r\n"
+login_commands: "LOG USB1 CORRIMUDATASB ONTIME 0.01\r\n"
+login_commands: "LOG USB1 INSCOVSB ONTIME 1\r\n"
+login_commands: "LOG USB1 MARK1PVAB ONNEW\r\n"
+
+login_commands: "LOG USB1 SETINSTRANSLATIONB ONCE\r\n"
+login_commands: "LOG USB1 VEHICLEBODYROTATIONB ONCHANGED\r\n"
+
+logout_commands: "EVENTOUTCONTROL MARK2 DISABLE\r\n"
+logout_commands: "EVENTOUTCONTROL MARK1 DISABLE\r\n"
