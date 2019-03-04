@@ -90,8 +90,10 @@ class Canbus : public apollo::common::ApolloApp {
 
   CanbusConf canbus_conf_;
   std::unique_ptr<CanClient> can_client_;
+  std::unique_ptr<CanClient> secondary_can_client_;
   CanSender can_sender_;
   CanReceiver can_receiver_;
+  CanReceiver secondary_can_receiver_;
   std::unique_ptr<MessageManager> message_manager_;
   std::unique_ptr<VehicleController> vehicle_controller_;
 
