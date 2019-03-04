@@ -12,7 +12,7 @@ cc_binary(
         "//external:gflags",
         "//modules/hmi/utils:hmi_status_helper",
         "//modules/monitor/hwmonitor/hw:platform_hw_log_module_lib",
-        "//modules/monitor/hwmonitor/hw/esdcan:esdcan_checker_lib",
+        "//modules/monitor/common:interface",
     ],
 )
 
@@ -27,7 +27,7 @@ cc_binary(
         "//modules/common/proto:gnss_status_proto",
         "//modules/hmi/utils:hmi_status_helper",
         "//modules/monitor/hwmonitor/hw:platform_hw_log_module_lib",
-        "//modules/monitor/hwmonitor/hw/esdcan:esdcan_checker_lib",
+        "//modules/monitor/common:interface",
         "//third_party/ros:ros_common",
     ],
 )
@@ -43,7 +43,7 @@ cc_binary(
         "//external:gflags",
         "//modules/hmi/utils:hmi_status_helper",
         "//modules/monitor/hwmonitor/hw:platform_hw_log_module_lib",
-        "//modules/monitor/hwmonitor/hw/esdcan:mock_esdcan_checker_lib",
+        "//modules/monitor/common:interface",
     ],
 )
 

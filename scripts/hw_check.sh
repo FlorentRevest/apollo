@@ -26,11 +26,6 @@ LOG="${APOLLO_ROOT_DIR}/data/log/hw_check.out"
 
 case $1 in
   "can")
-    # setup can device
-    if [ ! -e /dev/can0 ]; then
-      sudo mknod --mode=a+rw /dev/can0 c 52 0
-    fi
-
     eval "${APOLLO_BIN_PREFIX}/modules/monitor/hwmonitor/hw_check/can_check | tee ${LOG}"
     ;;
   "gps")

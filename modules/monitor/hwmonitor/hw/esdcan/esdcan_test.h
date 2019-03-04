@@ -17,8 +17,6 @@
 #ifndef MODULES_PLATFORM_HW_ESDCAN_TEST_H_
 #define MODULES_PLATFORM_HW_ESDCAN_TEST_H_
 
-#include "esd_can/include/ntcan.h"
-
 /**
  * @namespace apollo::platform::hw
  * @brief apollo::platform::hw
@@ -41,7 +39,6 @@ struct EsdCanDetails {
   NTCAN_CTRL_STATE ctrl_state;
   NTCAN_BITRATE bitrate;
 
-  NTCAN_RESULT result;
   /// Bits flag indicating which fields are valid.
   unsigned int valid_flag;
 
@@ -58,11 +55,6 @@ struct EsdCanDetails {
     valid_flag |= mask;
   }
 };
-
-/// Test (check) esdcan of the given id.
-/// @param stats where to store can bus stats.
-/// @param details where to store detailed can stats/state information.
-NTCAN_RESULT esdcan_do_test(int id, EsdCanDetails *details);
 
 }  // namespace hw
 }  // namespace platform

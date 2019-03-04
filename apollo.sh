@@ -55,8 +55,6 @@ function check_esd_files() {
       -a -f ./third_party/can_card_library/esd_can/lib/libntcan.so.4.0.1 ]; then
       USE_ESD_CAN=true
   else
-      warning "${YELLOW}ESD CAN library supplied by ESD Electronics does not exit.${NO_COLOR}"
-      warning "${YELLOW}If you need ESD CAN, please refer to third_party/can_card_library/esd_can/README.md${NO_COLOR}"
       USE_ESD_CAN=false
   fi
 }
@@ -67,14 +65,14 @@ function generate_build_targets() {
   BUILD_TARGETS=$(bazel query //... | grep -v "_test$" | grep -v "third_party" \
     | grep -v "_cpplint$" | grep -v "release" | grep -v "kernel")
   if ! $USE_ESD_CAN; then
-     BUILD_TARGETS=$(echo $BUILD_TARGETS |tr ' ' '\n' | grep -v "hwmonitor" | grep -v "esd")
+     BUILD_TARGETS=$(echo $BUILD_TARGETS |tr ' ' '\n' | grep -v "esd" | grep -v "tools:esdcan")
   fi
 }
 
 function generate_test_targets() {
   TEST_TARGETS=$(bazel query //... | grep "_test$" | grep -v "third_party" | grep -v "kernel")
   if ! $USE_ESD_CAN; then
-     TEST_TARGETS=$(echo $TEST_TARGETS| tr ' ' '\n' | grep -v "hwmonitor" | grep -v "esd")
+     TEST_TARGETS=$(echo $TEST_TARGETS |tr ' ' '\n' | grep -v "esd" | grep -v "tools:esdcan")
   fi
 }
 
@@ -184,13 +182,13 @@ function release() {
     do
         cp third_party/can_card_library/$m/lib/* $LIB_DIR
     done
-    #hw check
-    mkdir -p $MODULES_DIR/monitor/hwmonitor/hw_check/
-    cp bazel-bin/modules/monitor/hwmonitor/hw_check/can_check $MODULES_DIR/monitor/hwmonitor/hw_check/
-    cp bazel-bin/modules/monitor/hwmonitor/hw_check/gps_check $MODULES_DIR/monitor/hwmonitor/hw_check/
     mkdir -p $MODULES_DIR/monitor/hwmonitor/hw/tools/
     cp bazel-bin/modules/monitor/hwmonitor/hw/tools/esdcan_test_app $MODULES_DIR/monitor/hwmonitor/hw/tools/
   fi
+  #hw check
+  mkdir -p $MODULES_DIR/monitor/hwmonitor/hw_check/
+  cp bazel-bin/modules/monitor/hwmonitor/hw_check/can_check $MODULES_DIR/monitor/hwmonitor/hw_check/
+  cp bazel-bin/modules/monitor/hwmonitor/hw_check/gps_check $MODULES_DIR/monitor/hwmonitor/hw_check/
   cp -r bazel-genfiles/* $LIB_DIR
   # doc
   cp -r docs $ROOT_DIR

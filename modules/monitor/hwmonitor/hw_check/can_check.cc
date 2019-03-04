@@ -21,14 +21,12 @@
 #include "modules/hmi/utils/hmi_status_helper.h"
 #include "modules/monitor/common/annotations.h"
 #include "modules/monitor/common/log.h"
-#include "modules/monitor/hwmonitor/hw/esdcan/esdcan_checker.h"
-#include "modules/monitor/hwmonitor/hw/esdcan/esdcan_utils.h"
+#include "modules/monitor/common/annotations.h"
+#include "modules/monitor/common/interface/hw_checker.h"
 #include "modules/monitor/hwmonitor/hw/hw_log_module.h"
 #include "modules/monitor/hwmonitor/hw_check/hw_chk_utils.h"
 
 using apollo::platform::HwCheckResult;
-using apollo::platform::hw::EsdCanChecker;
-using apollo::platform::hw::EsdCanDetails;
 using apollo::hmi::HMIStatusHelper;
 using apollo::hmi::HardwareStatus;
 
@@ -47,21 +45,9 @@ int main(int argc, const char *argv[]) {
 #endif
 
   // We only have can0 for now.
-  int can_id = 0;
-  EsdCanChecker can_chk(can_id);
   std::vector<HwCheckResult> can_rslt;
-  can_chk.run_check(can_rslt);
-  assert(can_rslt.size() == 1);
-
-#ifdef DEBUG
-  apollo::platform::hw::esdcan_print_summary(
-      std::cout, *(const EsdCanDetails *)((can_rslt[0].details.get())));
-#else
-  PLATFORM_LOG(apollo::platform::hw::get_log_module(),
-               apollo::platform::log::LVL_DBG,
-               "Done checking ESD-CAN-%d, status: %d",
-               can_id, can_rslt[0].status);
-#endif
+  HwCheckResult rslt("ESD_CAN-0", apollo::platform::hw::Status::OK);
+  can_rslt.emplace_back(std::move(rslt));
 
   std::vector<HardwareStatus> hw_status;
   apollo::platform::hw::hw_chk_result_to_hmi_status(can_rslt, &hw_status);
