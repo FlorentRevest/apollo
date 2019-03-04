@@ -17,6 +17,7 @@
 #include "modules/canbus/can_client/can_client_factory.h"
 
 #include "modules/canbus/can_client/fake/fake_can_client.h"
+#include "modules/canbus/can_client/socket/socket_can_client_raw.h"
 #if USE_ESD_CAN
 #include "modules/canbus/can_client/esd/esd_can_client.h"
 #endif
@@ -36,6 +37,8 @@ void CanClientFactory::RegisterCanClients() {
   Register(CANCardParameter::ESD_CAN,
            []() -> CanClient* { return new can::EsdCanClient(); });
 #endif
+  Register(CANCardParameter::SOCKET_CAN_RAW,
+           []() -> CanClient* { return new can::SocketCanClientRaw(); });
 }
 
 std::unique_ptr<CanClient> CanClientFactory::CreateCANClient(
