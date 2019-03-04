@@ -78,6 +78,7 @@ cc_library(
     ],
     deps = [
         ":lincoln_vehicle_factory",
+        "//modules/canbus/vehicle/niro:niro_vehicle_factory",
         "//modules/common/util:factory",
     ],
 )

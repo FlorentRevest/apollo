@@ -14,33 +14,23 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/proto/vehicle_parameter.pb.h"
-#include "modules/canbus/vehicle/lincoln_vehicle_factory.h"
 #include "modules/canbus/vehicle/niro/niro_vehicle_factory.h"
-#include "modules/canbus/vehicle/vehicle_factory.h"
+
+#include "modules/canbus/vehicle/niro/niro_controller.h"
+#include "modules/canbus/vehicle/niro/niro_message_manager.h"
+#include "modules/common/log.h"
+#include "modules/common/util/util.h"
 
 namespace apollo {
 namespace canbus {
 
-void VehicleFactory::RegisterVehicleFactory() {
-  Register(VehicleParameter::LINCOLN_MKZ, []() -> AbstractVehicleFactory* {
-    return new LincolnVehicleFactory();
-  });
-  Register(VehicleParameter::KIA_NIRO, []() -> AbstractVehicleFactory* {
-    return new NiroVehicleFactory();
-  });
+std::unique_ptr<VehicleController>
+NiroVehicleFactory::CreateVehicleController() {
+  return std::unique_ptr<VehicleController>(new niro::NiroController());
 }
 
-std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
-    const VehicleParameter& vehicle_parameter) {
-  auto abstract_factory = CreateObject(vehicle_parameter.brand());
-  if (!abstract_factory) {
-    AERROR << "failed to create vehicle factory with "
-           << vehicle_parameter.DebugString();
-  } else {
-    abstract_factory->SetVehicleParameter(vehicle_parameter);
-  }
-  return abstract_factory;
+std::unique_ptr<MessageManager> NiroVehicleFactory::CreateMessageManager() {
+  return std::unique_ptr<MessageManager>(new niro::NiroMessageManager());
 }
 
 }  // namespace canbus
