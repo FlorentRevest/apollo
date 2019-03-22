@@ -26,8 +26,8 @@ rtk_to {
     }
 }
 
-# First approximation of measurements between the IMU and the antenna
-# x=33.5cm, y=31.cm, z=110cm
+# Distance between the IMU and the antenna
+# x=34.4cmm y=30.1cm z=92.46cm
 
 rtk_solution_type: RTK_RECEIVER_SOLUTION
 
@@ -35,7 +35,7 @@ login_commands: "WIFICONFIG OFF\r\n"
 login_commands: "UNLOGALL THISPORT\r\n"
 
 login_commands: "INSCOMMAND ENABLE\r\n"
-login_commands: "SETINSTRANSLATION ANT1 0.335 0.31 1.10 0.05 0.05 0.1\r\n"
+login_commands: "SETINSTRANSLATION ANT1 0.344 0.301 0.9246 0.003 0.003 0.003\r\n"
 login_commands: "SETINSTRANSLATION USER 0.00 0.00 0.00\r\n"
 login_commands: "LOG COM2 GPRMC ONTIME 1.0 0.25\r\n"
 login_commands: "EVENTOUTCONTROL MARK2 ENABLE POSITIVE 999999990 10\r\n"
