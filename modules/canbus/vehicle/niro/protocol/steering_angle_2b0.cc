@@ -48,13 +48,7 @@ double Steeringangle2b0::steering_wheel_angle(const std::uint8_t* bytes, int32_t
   x <<= 16;
   x >>= 16;
 
-  double ret = x;
-
-  if(ret > 60000)
-    ret -= 65535;
-
-  ret = ret * 0.018;
-  return ret;
+  return -(x * 0.021);
 }
 }  // namespace niro
 }  // namespace canbus

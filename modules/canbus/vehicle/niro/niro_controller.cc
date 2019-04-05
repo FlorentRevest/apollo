@@ -88,6 +88,7 @@ ErrorCode NiroController::Init(const VehicleParameter& params,
      AERROR << "Steeringtorquecommand82 does not exist in the NiroMessageManager!";
      return ErrorCode::CANBUS_ERROR;
   }
+  steering_torque_command_82_->set_message_manager(message_manager);
 
   steering_disable_81_ = dynamic_cast<Steeringdisable81*>
           (message_manager_->GetMutableProtocolDataById(Steeringdisable81::ID));
@@ -367,10 +368,8 @@ void NiroController::Throttle(double pedal) {
   throttle_command_92_->set_throttle_pedal_command(real_pedal);
 }
 
-// niro default, -470 ~ 470, left:+, right:-
-// need to be compatible with control module, so reverse
-// steering with old angle speed
-// angle:-99.99~0.00~99.99, unit:, left:-, right:+
+// set the targeted steering angle
+// angle:        -99.99~0.00~99.99, unit:percentage, left:-, right:+
 void NiroController::Steer(double angle) {
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
@@ -378,12 +377,7 @@ void NiroController::Steer(double angle) {
     return;
   }
 
-  ChassisDetail chassis_detail;
-  message_manager_->GetChassisDetail(&chassis_detail);
-
-  const double current_angle = chassis_detail.eps().steering_angle();
-  const double error = (current_angle - angle) * 0.021; // Equivalent to the "closedLoopControl" in rossco_apollo
-  steering_torque_command_82_->set_steering_torque_command(error);
+  steering_torque_command_82_->set_steering_angle_target(angle);
 }
 
 // steering with new angle speed

@@ -18,6 +18,7 @@
 #define MODULES_CANBUS_VEHICLE_NIRO_PROTOCOL_STEERING_TORQUE_COMMAND_82_H_
 
 #include "modules/canbus/vehicle/protocol_data.h"
+#include "modules/canbus/vehicle/message_manager.h"
 
 namespace apollo {
 namespace canbus {
@@ -35,8 +36,9 @@ class Steeringtorquecommand82 : public ProtocolData {
 
   void Reset() override;
 
-  // config detail: {'name': 'steering_torque_command', 'offset': 0.0, 'precision': 1.0, 'len': 32, 'is_signed_var': True, 'physical_range': '[-1|1]', 'bit': 16, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
-  Steeringtorquecommand82* set_steering_torque_command(double steering_torque_command);
+  Steeringtorquecommand82* set_steering_angle_target(double angle_target);
+
+  void set_message_manager(MessageManager * message_manager);
 
  private:
 
@@ -44,10 +46,12 @@ class Steeringtorquecommand82 : public ProtocolData {
   void set_p_steering_command_magic(uint8_t* data);
 
   // config detail: {'name': 'steering_torque_command', 'offset': 0.0, 'precision': 1.0, 'len': 32, 'is_signed_var': True, 'physical_range': '[-1|1]', 'bit': 16, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
-  void set_p_steering_torque_command(uint8_t* data, double steering_torque_command);
+  void set_p_steering_torque_command(uint8_t* data, double angle_target);
 
  private:
-  double steering_torque_command_;
+  double angle_target_;
+  MessageManager * message_manager_;
+  double integral_, pre_error_;
 };
 
 }  // namespace niro
