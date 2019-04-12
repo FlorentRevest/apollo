@@ -19,6 +19,7 @@
 
 #include "modules/canbus/vehicle/protocol_data.h"
 #include "modules/canbus/vehicle/message_manager.h"
+//#include "modules/canbus/vehicle/vehicle_controller.h"
 
 namespace apollo {
 namespace canbus {
@@ -39,6 +40,7 @@ class Steeringtorquecommand82 : public ProtocolData {
   Steeringtorquecommand82* set_steering_angle_target(double angle_target);
 
   void set_message_manager(MessageManager * message_manager);
+//  void set_controller(VehicleController * controller);
 
  private:
 
@@ -50,7 +52,9 @@ class Steeringtorquecommand82 : public ProtocolData {
 
  private:
   double angle_target_;
+  double torque_command_average_;
   MessageManager * message_manager_;
+//  VehicleController * controller_;
   double integral_, pre_error_;
 };
 

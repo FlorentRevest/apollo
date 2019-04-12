@@ -48,7 +48,7 @@ double Steeringangle2b0::steering_wheel_angle(const std::uint8_t* bytes, int32_t
   x <<= 16;
   x >>= 16;
 
-  return -(x * 0.021);
+  return (x * 0.021);
 }
 }  // namespace niro
 }  // namespace canbus

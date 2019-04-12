@@ -89,6 +89,7 @@ ErrorCode NiroController::Init(const VehicleParameter& params,
      return ErrorCode::CANBUS_ERROR;
   }
   steering_torque_command_82_->set_message_manager(message_manager);
+  //steering_torque_command_82_->set_controller(this);
 
   steering_disable_81_ = dynamic_cast<Steeringdisable81*>
           (message_manager_->GetMutableProtocolDataById(Steeringdisable81::ID));
