@@ -8,10 +8,10 @@ child_frame_id: long_camera
 transform:
   translation:
     x: 0.097
-    y: 0.009
+    y: 0.013
     z: -0.108
   rotation:
-    w: 0.482
-    x: -0.476 
-    y: 0.525 
-    z: -0.515 
+    w: 0.493
+    x: -0.487
+    y: 0.514
+    z: -0.505

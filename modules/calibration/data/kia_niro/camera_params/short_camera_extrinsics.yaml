@@ -7,11 +7,11 @@ header:
 child_frame_id: short_camera
 transform:
   translation:
-    x: 0.069
-    y: 0.010
+    x: 0.068
+    y: 0.013
     z: -0.055
   rotation:
-    w: -0.479
-    x: 0.536
-    y: -0.468
-    z: 0.514
+    w: 0.492
+    x: -0.490
+    y: 0.512
+    z: -0.505
