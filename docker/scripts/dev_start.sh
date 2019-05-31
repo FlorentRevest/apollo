@@ -210,7 +210,7 @@ function main(){
         docker pull $IMG
         if [ $? -ne 0 ];then
             error "Failed to pull docker image."
-            exit 1
+#            exit 1
         fi
     fi
 
