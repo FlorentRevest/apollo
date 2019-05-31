@@ -187,13 +187,13 @@ ErrorCode SocketCanClientRaw::Receive(std::vector<CanFrame> *const frames,
       AERROR << "receive message failed, error code: " << ret;
       return ErrorCode::CAN_CLIENT_ERROR_BASE;
     }
-    if (recv_frames_[i].can_dlc != CANBUS_MESSAGE_LENGTH) {
+/*    if (recv_frames_[i].can_dlc != CANBUS_MESSAGE_LENGTH) {
       AERROR << "recv_frames_[" << i
              << "].can_dlc = " << recv_frames_[i].can_dlc
              << ", which is not equal to can message data length ("
              << CANBUS_MESSAGE_LENGTH << ").";
       return ErrorCode::CAN_CLIENT_ERROR_RECV_FAILED;
-    }
+    } */
     cf.id = recv_frames_[i].can_id;
     cf.len = recv_frames_[i].can_dlc;
     std::memcpy(cf.data, recv_frames_[i].data, recv_frames_[i].can_dlc);
