@@ -18,19 +18,10 @@
 """
 Start apollo data recorder.
 
-It lists all available disks mounted under /media, and prioritize them in order:
-   - Disk#1. Largest NVME disk
-   - Disk#2. Smaller NVME disk
-   - ...
-   - Disk#x. Largest Non-NVME disk
-   - Disk#y. Smaller Non-NVME disk
-   - ...
+It lists all available disks mounted under /media, and:
 
-1. If we have NVME disk, it will be used to record all data.
-2. If we have Non-NVME disk, it will only record SMALL_TOPICS, unless '--all' is
-   specified.
-3. If no external disks are available, we will take '/apollo' as a
-   'Non-NVME disk' and follow the rule above.
+1. If our external HDD is connected, it will be used to record all data.
+2. If it is not connected, it will only record SMALL_TOPICS to '/apollo'
 
 Run with '--help' to see more options.
 """
@@ -179,7 +170,7 @@ class Recorder(object):
         # To record all topics if
         # 1. User requested with '--all' argument.
         # 2. Or we have a NVME disk.
-        record_all = self.args.all or (len(disks) > 0 and disks[0]['is_nvme'])
+        record_all = self.args.all or (len(disks) > 0 and disks[0]['mountpoint'] == "/media/external_hdd")
         # Use the best disk, or fallback '/apollo' if none available.
         disk_to_use = '/apollo'
         available_size = 0
